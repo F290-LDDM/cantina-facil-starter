@@ -2,6 +2,8 @@
 
 Kit para conduzir o planejamento do app **Cantina Fácil** e publicar o backlog como um **Kanban no GitHub Projects v2**, com histórias, critérios de aceite, BDD e diagramas Mermaid.
 
+> **Usando em sala de aula?** Este repositório é um *template* em `F290-LDDM/cantina-facil-starter`. Clique em **Use this template → Create a new repository** e siga o [`GUIA-COMPARTILHAMENTO.md`](GUIA-COMPARTILHAMENTO.md) para o passo a passo do professor e dos alunos.
+
 ## Arquivos
 
 | Arquivo | Para que serve |

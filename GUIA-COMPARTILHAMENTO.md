@@ -8,6 +8,18 @@ Use um **repositório-template no GitHub** (ou **GitHub Classroom** se você pre
 
 > Regra de ouro: **nunca** compartilhe o mesmo repositório ou o mesmo Project entre grupos. Labels, issues e campos colidem e o Kanban perde a utilidade.
 
+## Template já publicado
+
+| Item | Valor |
+|---|---|
+| Repositório | <https://github.com/F290-LDDM/cantina-facil-starter> |
+| Organização | `F290-LDDM` |
+| Visibilidade | **privada** |
+| Template | ✅ habilitado (`isTemplate: true`) |
+| Branch padrão | `main` |
+
+> Por ser **privado**, os alunos só conseguem usar o botão **Use this template** se forem membros da organização `F290-LDDM` com permissão de **leitura** no repositório. Veja a seção *Liberar acesso*.
+
 ## Comparativo
 
 | Opção | Ideal para | Prós | Contras |
@@ -22,26 +34,24 @@ Use um **repositório-template no GitHub** (ou **GitHub Classroom** se você pre
 
 ## Opção A — Repositório-template (recomendado)
 
-### 1. Professor: criar a organização da turma (opcional, mas recomendado)
+### 1. Professor: organização da turma
 
-Crie uma organização no GitHub (ex.: `fatec-cantina-2026`) para que os repositórios pertençam à instituição, e não à sua conta pessoal. Isso facilita:
-
-- dar acesso de leitura ao template;
-- manter os repos dos grupos sob o mesmo guarda-chuva;
-- remover alunos ao fim do semestre sem perder o material.
+A organização `F290-LDDM` já existe e a conta `esdrascps` tem papel de **admin**. Nenhuma ação necessária aqui.
 
 ### 2. Professor: publicar o kit como template
 
-Na pasta do kit:
+✅ **Já executado.** Para referência, o comando usado foi:
 
 ```bash
 cd "/Users/esdras/Documents/Default Project"
 git init -b main
 git add -A
-git commit -m "Kit de planejamento — Cantina Fácil"
-gh repo create <org>/cantina-facil-starter --private --source=. --push
-gh repo edit <org>/cantina-facil-starter --template
+git commit -m "Kit de planejamento agil - Cantina Facil"
+gh repo create F290-LDDM/cantina-facil-starter --private --source=. --remote=origin --push
+gh repo edit F290-LDDM/cantina-facil-starter --template
 ```
+
+Se precisar republicar do zero em outra organização, troque `F290-LDDM` pelo owner desejado.
 
 Confirme que a pasta oculta foi versionada:
 
@@ -53,21 +63,43 @@ Devem aparecer o agente e a skill. Se não aparecerem, rode `git add -A` novamen
 
 ### 3. Professor: liberar acesso
 
-Duas opções:
+O template é **privado**. Duas opções:
 
-- **Organização privada:** crie um time `alunos` com permissão **Read** no repositório `cantina-facil-starter`. Os alunos precisam ser membros da org.
-- **Template público:** deixe o `cantina-facil-starter` público e os repositórios criados a partir dele privados. É o caminho mais simples e não expõe o trabalho dos grupos.
+**A. Time da organização (recomendado)**
+
+```bash
+# criar o time (uma vez)
+gh api orgs/F290-LDDM/teams -f name=alunos -f privacy=closed
+
+# dar leitura no template ao time
+gh api -X PUT "orgs/F290-LDDM/teams/alunos/repos/F290-LDDM/cantina-facil-starter" \
+  -f permission=pull
+```
+
+Depois adicione cada aluno ao time (pela UI da organização ou convidando por e-mail). Só membros do time verão o repositório.
+
+**B. Template público**
+
+Deixe o template público e mantenha os repositórios dos grupos privados:
+
+```bash
+gh repo edit F290-LDDM/cantina-facil-starter --visibility public --accept-visibility-change-consequences
+```
+
+É o caminho mais simples e não expõe o trabalho dos grupos.
+
+> Para conferir quem já tem acesso: `gh api repos/F290-LDDM/cantina-facil-starter/collaborators --jq '.[].login'`
 
 ### 4. Aluno: criar o repositório do grupo
 
-1. Abrir `https://github.com/<org>/cantina-facil-starter`.
+1. Abrir `https://github.com/F290-LDDM/cantina-facil-starter`.
 2. Clicar em **Use this template → Create a new repository**.
 3. Nome sugerido: `cantina-facil-grupo-01`.
-4. Visibilidade: **Private**.
+4. Owner: `F290-LDDM` (ou a conta do grupo). Visibilidade: **Private**.
 5. Criar e clonar:
 
 ```bash
-git clone https://github.com/<owner>/cantina-facil-grupo-01.git
+git clone https://github.com/F290-LDDM/cantina-facil-grupo-01.git
 cd cantina-facil-grupo-01
 ```
 
@@ -163,7 +195,7 @@ Cópias feitas a partir de um template **não recebem atualizações automaticam
 
 ```bash
 # no repositório do grupo
-git remote add kit https://github.com/<org>/cantina-facil-starter.git
+git remote add kit https://github.com/F290-LDDM/cantina-facil-starter.git
 git fetch kit
 git merge kit/main --allow-unrelated-histories
 ```
@@ -193,7 +225,7 @@ Resolva conflitos em `PROMPT.md` e `.opencode/` manualmente. Se preferir, distri
 Olá, pessoal!
 
 O kit de planejamento do Cantina Fácil está em:
-<LINK_DO_TEMPLATE>
+https://github.com/F290-LDDM/cantina-facil-starter
 
 Passos:
 1. Clique em "Use this template" → "Create a new repository".
