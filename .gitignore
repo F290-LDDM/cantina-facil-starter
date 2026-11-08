@@ -1,0 +1,48 @@
+# macOS
+.DS_Store
+
+# IDEs
+.idea/
+*.iml
+.vscode/
+*.swp
+
+# Dart / Flutter
+.dart_tool/
+.flutter-plugins
+.flutter-plugins-dependencies
+.pub-cache/
+.pub/
+build/
+coverage/
+**/doc/api/
+**/ios/Flutter/.last_build_id
+**/ios/Flutter/ephemeral/
+
+# Android
+**/android/.gradle/
+**/android/local.properties
+**/android/key.properties
+**/*.jks
+**/*.keystore
+
+# iOS
+**/ios/Pods/
+**/ios/.symlinks/
+**/ios/Flutter/Flutter.framework
+**/ios/Flutter/Flutter.podspec
+
+# Segredos e configuração local
+.env
+.env.*
+!.env.example
+*.pem
+**/google-services.json
+**/GoogleService-Info.plist
+
+# Artefatos gerados pelo planejamento
+docs/plano/items.json
+docs/plano/project.json
+
+# Logs
+*.log

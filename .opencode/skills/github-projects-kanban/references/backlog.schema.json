@@ -1,0 +1,112 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://cantina-facil.local/schemas/backlog.schema.json",
+  "title": "Backlog Cantina Fácil",
+  "description": "Fonte de verdade para publicar épicos e histórias no GitHub Projects v2.",
+  "type": "object",
+  "required": ["projeto", "epicos", "itens"],
+  "additionalProperties": false,
+  "properties": {
+    "projeto": {
+      "type": "object",
+      "required": ["nome", "owner", "repo", "project_titulo", "sprints"],
+      "additionalProperties": false,
+      "properties": {
+        "nome": { "type": "string", "minLength": 1 },
+        "owner": { "type": "string", "minLength": 1 },
+        "repo": { "type": "string", "minLength": 1 },
+        "project_numero": { "type": ["integer", "null"], "minimum": 1 },
+        "project_titulo": { "type": "string", "minLength": 1 },
+        "moeda": { "type": "string", "default": "BRL" },
+        "sprints": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "required": ["nome", "inicio", "fim", "meta"],
+            "additionalProperties": false,
+            "properties": {
+              "nome": { "type": "string", "minLength": 1 },
+              "inicio": { "type": "string", "format": "date" },
+              "fim": { "type": "string", "format": "date" },
+              "meta": { "type": "string", "minLength": 1 }
+            }
+          }
+        }
+      }
+    },
+    "epicos": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["id", "titulo", "descricao", "metrica"],
+        "additionalProperties": false,
+        "properties": {
+          "id": { "type": "string", "pattern": "^CF-E[0-9]{2}$" },
+          "titulo": { "type": "string", "minLength": 1 },
+          "descricao": { "type": "string", "minLength": 1 },
+          "metrica": { "type": "string", "minLength": 1 }
+        }
+      }
+    },
+    "itens": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "tipo",
+          "epico",
+          "titulo",
+          "area",
+          "prioridade",
+          "tamanho",
+          "sprint",
+          "status",
+          "labels",
+          "milestone",
+          "corpo_arquivo",
+          "dependencias"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "id": { "type": "string", "pattern": "^CF-[0-9]{3}$" },
+          "tipo": { "enum": ["feature", "bug", "tech", "docs", "spike"] },
+          "epico": { "type": "string", "pattern": "^CF-E[0-9]{2}$" },
+          "titulo": { "type": "string", "minLength": 5, "maxLength": 70 },
+          "area": { "type": "string", "minLength": 1 },
+          "prioridade": {
+            "enum": ["P0 - Bloqueante", "P1 - Alta", "P2 - Média", "P3 - Baixa"]
+          },
+          "tamanho": { "enum": [1, 2, 3, 5, 8, 13] },
+          "sprint": { "type": "string", "minLength": 1 },
+          "status": {
+            "enum": ["Backlog", "Ready", "Em progresso", "Em revisão", "Done"]
+          },
+          "labels": {
+            "type": "array",
+            "minItems": 1,
+            "uniqueItems": true,
+            "items": { "type": "string", "pattern": "^(tipo|area|prio|tam):[a-z0-9-]+$|^(bloqueado|dependencia-externa)$" }
+          },
+          "milestone": { "type": ["string", "null"] },
+          "corpo_arquivo": {
+            "type": "string",
+            "pattern": "^docs/plano/issues/CF-[0-9]{3}\\.md$"
+          },
+          "dependencias": {
+            "type": "array",
+            "uniqueItems": true,
+            "items": { "type": "string", "pattern": "^CF-[0-9]{3}$" }
+          },
+          "assignees": {
+            "type": "array",
+            "items": { "type": "string" }
+          }
+        }
+      }
+    }
+  }
+}
